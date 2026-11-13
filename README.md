@@ -1,17 +1,14 @@
 # SpeakUp
 
-Test de niveau d'anglais en ligne, réalisé avec React et Vite.
+Espace de préparation à l'IELTS, réalisé avec React, Vite et Three.js.
 
-En une quinzaine de minutes, le test estime votre niveau CECRL (A1 à C2) et son équivalent IELTS à partir de 36 questions réparties en quatre parties :
+## Ce que contient le site
 
-- Grammaire (12 questions)
-- Vocabulaire (10 questions)
-- Compréhension écrite (8 questions)
-- Compréhension orale (6 questions, lues par la synthèse vocale du navigateur)
+- **Espace 3D** — une carte en trois dimensions : sept planètes (Niveaux, Grammaire, Vocabulaire, Reading, Listening, Speaking, Writing) autour de l'objectif. Chaque planète porte ses leçons sous forme de lunes : 57 leçons au total, avec les points à retenir, une question ou un exercice oral, et le renvoi au chapitre du PDF d'origine. La progression est conservée dans le navigateur.
+- **Plan** — le programme de 12 semaines en quatre phases, avec des tâches à cocher.
+- **Test de niveau** — 36 questions (grammaire, vocabulaire, compréhension écrite et orale) qui estiment le niveau CECRL de A1 à C2.
 
-À la fin : niveau global, score par compétence et correction détaillée. Le dernier résultat est conservé dans le navigateur.
-
-> Le résultat est indicatif et ne remplace pas un test officiel (IELTS, TOEFL, Cambridge).
+> Les notes de leçon sont des synthèses ; les guides d'origine restent la référence. Le résultat du test est indicatif.
 
 ## Lancer le projet
 
@@ -22,19 +19,23 @@ npm run dev
 
 Puis ouvrir http://localhost:5173.
 
-Build de production :
+## PDF et enregistrements
 
-```bash
-npm run build
+Les guides PDF et les enregistrements audio ne sont pas dans le dépôt. En développement, le serveur les lit dans le dossier parent du projet :
+
 ```
+dossier-de-révision/
+├── *.pdf                     guides
+├── audio/Audio-files/*.mp3   enregistrements
+└── SpeakUp/                  ce projet
+```
+
+S'ils sont présents, chaque leçon propose un lien vers son PDF et les leçons de Listening affichent leurs lecteurs audio. Sinon, le site fonctionne sans.
 
 ## Structure
 
-- `src/data/questions.js` — banque de questions (niveau, énoncé, options, bonne réponse)
-- `src/scoring.js` — calcul du score pondéré et correspondance avec les niveaux
-- `src/App.jsx` — écrans d'accueil, de test et de résultat
-- `src/styles.css` — styles (thème clair et sombre)
-
-## Calcul du niveau
-
-Chaque question vaut un nombre de points selon son niveau (A1 = 1 … C2 = 6). Le pourcentage de points obtenus détermine le niveau : A2 à partir de 15 %, B1 à 32 %, B2 à 52 %, C1 à 72 %, C2 à 90 %.
+- `src/study/content.js` — modules, leçons, questions et plan
+- `src/study/Scene.jsx` — scène 3D (planètes, lunes, caméra, étiquettes)
+- `src/study/StudySpace.jsx`, `LessonPanel.jsx`, `PlanView.jsx` — interface d'étude
+- `src/LevelTest.jsx`, `src/data/questions.js`, `src/scoring.js` — test de niveau
+- `vite.config.js` — configuration et accès local aux PDF et à l'audio
